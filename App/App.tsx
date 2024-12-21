@@ -5,9 +5,9 @@ import RootStack from './routing.tsx';
 
 const App = () => {
   return (
-      <SafeAreaProvider>
-        <RootStack />
-      </SafeAreaProvider>
+    <SafeAreaProvider>
+      <RootStack />
+    </SafeAreaProvider>
   );
 };
 

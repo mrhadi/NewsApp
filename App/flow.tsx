@@ -11,12 +11,27 @@ import { logConsole } from './Services/LogTracker';
 export type MainFlowStateType = {
   onSplashScreenDone: Function
   init: Function
+  getCategories: Function
 }
 
 export type LocalDataType = {
+  newsCategories: string[],
+  selectedCategory: NewsCategory,
+}
+
+export enum NewsCategory {
+  Uncategorized = 'general',
+  Business = 'business',
+  Entertainment = 'entertainment',
+  Health = 'health',
+  Science = 'science',
+  Sports = 'sports',
+  Technology = 'technology'
 }
 
 const localData: LocalDataType = {
+  newsCategories: [],
+  selectedCategory: NewsCategory.Uncategorized,
 };
 
 const MainFlowNavigationStack = createNativeStackNavigator();
@@ -27,6 +42,8 @@ export const MainFlowContext = React.createContext<MainFlowStateType | null>(
 
 const MainFlowState = (navigation, apiService): MainFlowStateType => {
   const resetLocalData = () => {
+    localData.newsCategories = Object.keys(NewsCategory);
+    localData.selectedCategory = NewsCategory.Uncategorized;
   };
 
   const init = () => {
@@ -37,9 +54,11 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     navigation.navigate('NewsBrowserScreen');
   };
 
+  const getCategories = () => (localData.newsCategories)
   return {
     init,
-    onSplashScreenDone
+    onSplashScreenDone,
+    getCategories
   };
 };
 

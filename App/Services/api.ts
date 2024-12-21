@@ -9,7 +9,7 @@ const BASE_URL = ENV.BASE_API_URL;
 const ApiService = () => {
   const client: AxiosInstance = applyCaseMiddleware(axios.create({
     baseURL: BASE_URL,
-    timeout: 15000,
+    timeout: 10000,
   }));
 
   client.interceptors.request.use(

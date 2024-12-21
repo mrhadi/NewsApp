@@ -6,7 +6,7 @@ import SplashScreen from './Screens/Splash.screen';
 
 import ApiService from './Services/api';
 import { navigationRef } from './routing';
-import { logConsole } from './Services/LogTracker';
+import { logConsole, logAPIError } from './Services/LogTracker';
 
 export type MainFlowStateType = {
   onSplashScreenDone: Function
@@ -14,11 +14,26 @@ export type MainFlowStateType = {
   getCategories: Function
   getSelectedCategory: Function
   setCategory: Function
+  getNewsData: Function
+}
+
+export type NewsType = {
+  author: string
+  title: string
+  description: string
+  url: string
+  source: string
+  image: string
+  category: NewsCategory
+  language: string
+  country: string
+  published_at: string
 }
 
 export type LocalDataType = {
   newsCategories: string[],
   selectedCategory: NewsCategory,
+  selectedCategoryData: Array<NewsType>
 }
 
 export enum NewsCategory {
@@ -34,6 +49,7 @@ export enum NewsCategory {
 const localData: LocalDataType = {
   newsCategories: [],
   selectedCategory: NewsCategory.General,
+  selectedCategoryData: [],
 };
 
 const MainFlowNavigationStack = createNativeStackNavigator();
@@ -46,10 +62,12 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
   const resetLocalData = () => {
     localData.newsCategories = Object.keys(NewsCategory);
     localData.selectedCategory = NewsCategory.General;
+    localData.selectedCategoryData = [];
   };
 
   const init = () => {
     resetLocalData();
+    getNewsData(localData.selectedCategory);
   };
 
   const onSplashScreenDone = () => {
@@ -62,7 +80,19 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
 
   const setCategory = (category: NewsCategory) => {
     logConsole('Category has set to: ' + category);
+
+    getNewsData(category);
     localData.selectedCategory = category;
+  };
+
+  const getNewsData = async (category: NewsCategory) => {
+    try {
+      const res = await apiService.getNews(category.toLowerCase());
+      localData.selectedCategoryData = res?.data?.data;
+      logConsole('News read: ' + localData.selectedCategoryData.length);
+    } catch (err) {
+      logAPIError(err);
+    }
   };
 
   return {
@@ -71,6 +101,7 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     getCategories,
     getSelectedCategory,
     setCategory,
+    getNewsData,
   };
 };
 

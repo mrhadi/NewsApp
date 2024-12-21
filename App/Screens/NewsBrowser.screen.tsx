@@ -36,6 +36,7 @@ function NewsBrowserScreen() {
         showsVerticalScrollIndicator={false}
         data={news}
         renderItem={({ item }) => (<NewsTile newsData={item} onNewsPress={handleOnNewsPress} />)}
+        ListFooterComponent={<View style={{ margin: 100 }} />}
       />
     </View>
   );

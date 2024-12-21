@@ -12,6 +12,8 @@ export type MainFlowStateType = {
   onSplashScreenDone: Function
   init: Function
   getCategories: Function
+  getSelectedCategory: Function
+  setCategory: Function
 }
 
 export type LocalDataType = {
@@ -20,7 +22,7 @@ export type LocalDataType = {
 }
 
 export enum NewsCategory {
-  Uncategorized = 'general',
+  General = 'general',
   Business = 'business',
   Entertainment = 'entertainment',
   Health = 'health',
@@ -31,7 +33,7 @@ export enum NewsCategory {
 
 const localData: LocalDataType = {
   newsCategories: [],
-  selectedCategory: NewsCategory.Uncategorized,
+  selectedCategory: NewsCategory.General,
 };
 
 const MainFlowNavigationStack = createNativeStackNavigator();
@@ -43,7 +45,7 @@ export const MainFlowContext = React.createContext<MainFlowStateType | null>(
 const MainFlowState = (navigation, apiService): MainFlowStateType => {
   const resetLocalData = () => {
     localData.newsCategories = Object.keys(NewsCategory);
-    localData.selectedCategory = NewsCategory.Uncategorized;
+    localData.selectedCategory = NewsCategory.General;
   };
 
   const init = () => {
@@ -54,11 +56,21 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     navigation.navigate('NewsBrowserScreen');
   };
 
-  const getCategories = () => (localData.newsCategories)
+  const getCategories = () => (localData.newsCategories);
+
+  const getSelectedCategory = () => (localData.selectedCategory);
+
+  const setCategory = (category: NewsCategory) => {
+    logConsole('Category has set to: ' + category);
+    localData.selectedCategory = category;
+  };
+
   return {
     init,
     onSplashScreenDone,
-    getCategories
+    getCategories,
+    getSelectedCategory,
+    setCategory,
   };
 };
 

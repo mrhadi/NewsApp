@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     borderRadius: 11,
     marginHorizontal: 30,
     marginTop: 30,
-    alignItems: 'center',
     shadowOffset: {
       width: 2,
       height: 2,
@@ -32,8 +31,9 @@ export const NewsTile = (props: NewsTileProps) => {
     <TouchableOpacity style={styles.container} onPress={props.onNewsPress}>
       <Image source={{ uri: props.newsData.image }} style={{ width: '100%', height: 200, marginBottom: 5 }} />
       <View style={{ margin: 10, flex: 1 }}>
-        <Text style={{ color: 'seagreen', fontSize: 18 }}>{props.newsData.title}</Text>
-        <Text numberOfLines={5} style={{ color: 'darkslategrey', fontSize: 12, marginTop: 5, }}>{props.newsData.description}</Text>
+        <Text numberOfLines={2} style={{ color: 'seagreen', fontSize: 18 }}>{props.newsData.title}</Text>
+        <Text numberOfLines={5} style={{ color: 'darkslategrey', fontSize: 12, marginTop: 5, flex: 1 }}>{props.newsData.description}</Text>
+        <Text style={{ color: 'seagreen', fontSize: 18, fontWeight: 'bold', marginTop: 10 }}>{props.newsData.author}</Text>
       </View>
     </TouchableOpacity>
   );

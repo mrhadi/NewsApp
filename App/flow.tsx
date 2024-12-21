@@ -62,7 +62,7 @@ export const MainFlowContext = React.createContext<MainFlowStateType | null>(
 const MainFlowState = (navigation, apiService): MainFlowStateType => {
   const resetLocalData = () => {
     localData.newsCategories = Object.keys(NewsCategory);
-    localData.selectedCategory = NewsCategory.General;
+    localData.selectedCategory = 'General';
     localData.selectedCategoryData = [];
   };
 

@@ -15,6 +15,7 @@ export type MainFlowStateType = {
   getSelectedCategory: Function
   setCategory: Function
   getNewsData: Function
+  getNews: Function
 }
 
 export type NewsType = {
@@ -88,13 +89,17 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
   const getNewsData = async (category: NewsCategory) => {
     try {
       const res = await apiService.getNews(category.toLowerCase());
-      localData.selectedCategoryData = res?.data?.data;
+      const data = res?.data?.data;
+
+      // Filter news with image
+      localData.selectedCategoryData = data.filter(item => item.image !== null);
       logConsole('News read: ' + localData.selectedCategoryData.length);
     } catch (err) {
       logAPIError(err);
     }
   };
 
+  const getNews = () => (localData.selectedCategoryData)
   return {
     init,
     onSplashScreenDone,
@@ -102,6 +107,7 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     getSelectedCategory,
     setCategory,
     getNewsData,
+    getNews,
   };
 };
 

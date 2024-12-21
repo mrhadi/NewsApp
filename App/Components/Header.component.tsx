@@ -12,6 +12,7 @@ interface HeaderProps extends ViewProps {
 
 const styles = StyleSheet.create({
   container: {
+    marginBottom: 3,
     height: 110,
     shadowOffset: {
       width: 0,

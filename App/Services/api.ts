@@ -44,7 +44,7 @@ const ApiService = () => {
   );
 
   const getNews = async (category: string = '') => {
-    const url = `/news?access_key=${ENV.API_KEY}&categories=${category}`;
+    const url = `/news?access_key=${ENV.API_KEY}&categories=${category}&limit=100`;
     return client.get(url);
   };
 

@@ -90,10 +90,10 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     try {
       const res = await apiService.getNews(category.toLowerCase());
       const data = res?.data?.data;
+      logConsole('News read: ' + data.length);
 
       // Filter news with image
       localData.selectedCategoryData = data.filter(item => item.image !== null);
-      logConsole('News read: ' + localData.selectedCategoryData.length);
     } catch (err) {
       logAPIError(err);
     }

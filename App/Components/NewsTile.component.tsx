@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Text, TouchableOpacity, PressableProps, StyleSheet, Image, View } from 'react-native';
+
 import { NewsType } from '../flow';
-import {Author} from "./Author.component.tsx";
+import { Author } from './Author.component';
 
 interface NewsTileProps extends PressableProps {
   newsData: NewsType

@@ -92,8 +92,8 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
       const data = res?.data?.data;
       logConsole('News read: ' + data.length);
 
-      // Filter news with image
-      localData.selectedCategoryData = data.filter(item => item.image !== null);
+      // Filter news with image and if there is no author set source as thw author
+      localData.selectedCategoryData = data.filter(item => item.image !== null).map(item => item.author === null ? {...item, author: item.source} : item);
     } catch (err) {
       logAPIError(err);
     }

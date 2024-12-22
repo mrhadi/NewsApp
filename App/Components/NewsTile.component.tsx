@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, TouchableOpacity, PressableProps, StyleSheet, Image, View } from 'react-native';
 import { NewsType } from '../flow';
+import {Author} from "./Author.component.tsx";
 
 interface NewsTileProps extends PressableProps {
   newsData: NewsType
@@ -33,8 +34,9 @@ export const NewsTile = (props: NewsTileProps) => {
       <View style={{ margin: 10, flex: 1 }}>
         <Text numberOfLines={2} style={{ color: 'seagreen', fontSize: 18 }}>{props.newsData.title}</Text>
         <Text numberOfLines={5} style={{ color: 'darkslategrey', fontSize: 12, marginTop: 5, flex: 1 }}>{props.newsData.description}</Text>
-        <Text style={{ color: 'seagreen', fontSize: 18, fontWeight: 'bold', marginTop: 10 }}>{props.newsData.author}</Text>
+        {props.newsData?.author && (<Author name={props.newsData.author} />)}
       </View>
     </TouchableOpacity>
   );
 };
+

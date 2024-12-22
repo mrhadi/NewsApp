@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import NewsBrowserScreen from './Screens/NewsBrowser.screen.tsx';
 import SplashScreen from './Screens/Splash.screen';
+import NewsScreen from './Screens/News.screen';
 
 import ApiService from './Services/api';
 import { navigationRef } from './routing';
@@ -16,6 +17,8 @@ export type MainFlowStateType = {
   setCategory: Function
   getNewsData: Function
   getNews: Function
+  onNewsPress: Function
+  getSelectedNews: Function
 }
 
 export type NewsType = {
@@ -32,9 +35,10 @@ export type NewsType = {
 }
 
 export type LocalDataType = {
-  newsCategories: string[],
-  selectedCategory: NewsCategory,
+  newsCategories: string[]
+  selectedCategory: NewsCategory
   selectedCategoryData: Array<NewsType>
+  selectedNews: NewsType | null
 }
 
 export enum NewsCategory {
@@ -51,6 +55,7 @@ const localData: LocalDataType = {
   newsCategories: [],
   selectedCategory: NewsCategory.General,
   selectedCategoryData: [],
+  selectedNews: null,
 };
 
 const MainFlowNavigationStack = createNativeStackNavigator();
@@ -64,6 +69,7 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     localData.newsCategories = Object.keys(NewsCategory);
     localData.selectedCategory = 'General';
     localData.selectedCategoryData = [];
+    localData.selectedNews = null;
   };
 
   const init = () => {
@@ -99,7 +105,14 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     }
   };
 
-  const getNews = () => (localData.selectedCategoryData)
+  const onNewsPress = (item: NewsType) => {
+    localData.selectedNews = item;
+    navigation.navigate('NewsScreen');
+  };
+
+  const getNews = () => (localData.selectedCategoryData);
+  const getSelectedNews = () => (localData.selectedNews);
+
   return {
     init,
     onSplashScreenDone,
@@ -108,6 +121,8 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     setCategory,
     getNewsData,
     getNews,
+    onNewsPress,
+    getSelectedNews,
   };
 };
 
@@ -125,6 +140,10 @@ export const MainFlow = () => {
           name="SplashScreen"
           component={SplashScreen}
           options={{ headerShown: false }}
+        />
+        <MainFlowNavigationStack.Screen
+          name="NewsScreen"
+          component={NewsScreen}
         />
         <MainFlowNavigationStack.Screen
           name="NewsBrowserScreen"

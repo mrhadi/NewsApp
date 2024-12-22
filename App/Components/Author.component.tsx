@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {Text, StyleSheet, View, ViewProps} from 'react-native';
+import {Text, StyleSheet, View, ViewProps, ViewStyle} from 'react-native';
 
 interface AuthorProps extends ViewProps {
-  name: string
+  name: string,
+  style?: ViewStyle
 }
 
 const styles = StyleSheet.create({
@@ -10,6 +11,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   photo: {
     width: 40,
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
 
 export const Author = (props: AuthorProps) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, props.style]}>
       <View style={styles.photo}>
         <Text numberOfLines={2} style={styles.authorName}>{props.name.charAt(0).toUpperCase()}</Text>
       </View>
